@@ -3,8 +3,7 @@ using namespace std;
 
 int main() {
     long long n;
-    int result = 1;
-    int var = 1;
+    long long val = 1;
     cin >> n;
 
     if (n == 1) {
@@ -12,15 +11,12 @@ int main() {
         return 0;
     }
 
-    for (long long i = 0; i < 1000000000; 2*i-1) {
-        var = 1 + 6 * i;
-        i++;
-        if (var < n && n <= (6 * (2*i -1) + 1)) {
-            cout << result+1 << "\n";
-            return 0;
+    for (long long i = 1; i < 1000000000; i++) {
+        if (val < n && n < val + 6 * i+1) {
+            cout << i + 1 << "\n";
+            break;
         }
-
-        result++;
+        val += 6 * i;
     }
     return 0;
 }
