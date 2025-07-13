@@ -3,7 +3,6 @@
 #include <cmath>
 #include <string>
 #include <algorithm>
-#include <deque>
 #include <map>
 using namespace std;
 
@@ -14,37 +13,30 @@ int main() {
     int n;
     cin >> n;
 
+    int fruit[n];
     map<int, int> map;
-    deque<int> dq;
 
     for (int i = 0; i < n; i++)
     {
-        int x;
-        cin >> x;
-        map[x]++;
-        dq.push_back(x);
+        cin >> fruit[i];
     }
-    
-    while (map.size() > 2)
-    {
-        int f_num = dq.front();
-        int b_num = dq.back();
 
-        if (map[f_num] >= map[b_num]) {
-            dq.pop_back();
-            map[b_num]--;
-            if (map[b_num] == 0) map.erase(b_num);
-        } else if (map[f_num] < map[b_num]) {
-            dq.pop_front();
-            map[f_num]--;
-            if (map[f_num] == 0) map.erase(f_num);
-        } 
+    int left = 0, maxLen = 0;
+
+    for (int right = 0; right < n; right++)
+    {
+        map[fruit[right]]++;
+
+        while (map.size() > 2)
+        {
+            map[fruit[left]]--;
+            if (map[fruit[left]] == 0) map.erase(fruit[left]);
+            left++;
+        }
+
+        maxLen = max(maxLen, right - left + 1);
     }
+    cout << maxLen << '\n';
     
-    int result = 0;
-    for (auto x : map) {
-        result += x.second;
-    }
-    cout << result << '\n';
     return 0;
 }
