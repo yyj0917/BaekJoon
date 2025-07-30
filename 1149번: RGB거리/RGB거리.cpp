@@ -6,49 +6,40 @@
 #include <climits>
 using namespace std;
 int n;
-int ans = 0;
-int result = INT_MAX;
-int rgb[1001][1001];
-
-void draw(int homeNum, int colorIdx) {
-    if (homeNum > n) {
-        // cout << "ans: " << ans << endl;
-        result = min(result, ans);
-        return;
-    }
-
-    for (int i = 1; i <= 3; i++)
-    {
-        if (i != colorIdx) {
-            ans += rgb[homeNum][i];
-            draw(homeNum + 1, i);
-            ans -= rgb[homeNum][i];
-        }
-    }
-}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
     cin >> n;
+    int rgb[1001][1001];
+
     // 순서대로 red, green, blue;
     for (int i = 1; i <= n; i++)
     {
-        for (int j = 1; j <= 3; j++)
+        for (int j = 0; j <= 2; j++)
         {
             cin >> rgb[i][j];
         }
     }
+    int dp[1001][3];
+    dp[0][0] = 0;
+    dp[0][1] = 0;
+    dp[0][2] = 0;
 
-    for (int i = 1; i <= 3; i++)
+    for (int i = 1; i <= n; i++)
     {
-        ans += rgb[1][i];
-        draw(2, i);
-        ans -= rgb[1][i];
+        dp[i][0] = min(dp[i-1][1], dp[i-1][2]) + rgb[i][0];
+        dp[i][1] = min(dp[i-1][0], dp[i-1][2]) + rgb[i][1];
+        dp[i][2] = min(dp[i-1][0], dp[i-1][1]) + rgb[i][2];
     }
-    cout << result << '\n';
+    int ans = INT_MAX;
+    for (int i = 0; i < 3; i++)
+    {
+       ans = min(ans, dp[n][i]);
+    }
     
+    cout << ans << '\n';
 
     return 0;
 }
