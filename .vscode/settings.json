@@ -18,6 +18,7 @@
         "__bit_reference": "cpp",
         "sstream": "cpp",
         "ios": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "algorithm": "cpp"
     }
 }
