@@ -6,10 +6,7 @@
 #include <queue>
 using namespace std;
 int n, m;
-
-struct City {
-    int end, weight;
-};
+const int inf = 1e9;
 
 int main() {
     ios::sync_with_stdio(false);
@@ -17,34 +14,42 @@ int main() {
 
     cin >> n >> m;
 
-    vector<City> bus(n+1);
-    vector<int> dist(n+1, -1);
+    vector<pair<int, int>> adj[1001]; // adj[출발지] = {도착지 , 비용}
+    vector<long long> dist(1001, inf);
 
     for (int i = 1; i <= m; i++)
     {
         int start, end, weight;
         cin >> start >> end >> weight;
-        bus[start] = {end, weight};
+        adj[start].push_back({end, weight});
     }
     int start_city, end_city;
     cin >> start_city >> end_city;
-    queue<int> q;
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     dist[start_city] = 0;
-    q.push(start_city);
+    pq.push({0, start_city});
 
-    while (!q.empty())
+    while (!pq.empty())
     {
-        int cur = q.front();
-        q.pop();
+        int cost = pq.top().first;
+        int node = pq.top().second;
+        pq.pop();
 
-        for (City city : bus) {
-            if (dist[city.end] == -1) {
-                
+        if (cost > dist[node]) continue; // 이미 최단거리로 방문했으면 넘긴다
+
+        for (auto next_pair : adj[node]) {
+            int next_node = next_pair.first;
+            int weight = next_pair.second;
+
+            if (dist[next_node] > cost + weight) {
+                dist[next_node] = cost + weight;
+                pq.push({dist[next_node], next_node});
             }
         }
     }
     
-
+    cout << dist[end_city] << "\n";
     
 
 

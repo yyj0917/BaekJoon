@@ -6,49 +6,59 @@
 #include <queue>
 using namespace std;
 
-int v, e;
-
-int start;
-vector<vector<int>> graph;
-
-void solve(int start, int end, int dist) {
-    
-}
+const int inf = 1e9;
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
-    cin >> v >> e;
+    int v, e, start;
+    cin >> v >> e >> start;
 
-    cin >> start;
+    vector<pair<int, int>> adj[20001];
 
-    graph.resize(v+1, vector<int>(v+1, -1));
 
     for (int i = 0; i < e; i++)
     {
         int u, v, w;
         cin >> u >> v >> w;
-        graph[u][v] = w;
+        adj[u].push_back({v, w});
     }
 
-    vector<vector<int>> dist(v+1, vector<int> (v+1, -1));
+    vector<int> dist(20001, inf);
 
-    queue<int> q;
-    q.push(start);
-    graph[start][start] = 0;
-    while (!q.empty())
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, start});
+    dist[start] = 0;
+    while (!pq.empty())
     {
-        int cur = q.front();
-        q.pop();
+        int cost = pq.top().first;
+        int node = pq.top().second;
+        pq.pop();
 
-        for (int next : graph[cur]) {
-            if (next != -1) {
-                cout << next << '\n';
-                
+        if (cost > dist[node]) continue;
+
+
+        for (auto& next_pair : adj[node]) {
+            int next_node = next_pair.first;
+            int next_cost = next_pair.second;
+            if (dist[next_node] > cost + next_cost) {
+                dist[next_node] = cost + next_cost;
+                pq.push({dist[next_node], next_node});
             }
         }
     }
+    
+    for (int i = 1; i <= v; i++)
+    {
+        if (start == i) cout << 0 << "\n";
+        else {
+            if (dist[i] == inf) cout << "INF" << "\n";
+            else cout << dist[i] << "\n";
+        }
+    }
+
+    
     
 
 
