@@ -9,10 +9,10 @@ vector<int> tree;
 
 
 void solve(int start, int end) {
-    if (start > end) return;
+    if (start > end) return; // 범위를 벗어나는 기저 사례
 
     int root = tree[start]; // 전위 순회의 첫 결과는 root
-    int k = start + 1; // k = root보다 큰 키값이자 경계선
+    int k = start + 1; // k = root보다 큰 키값이자 경계선 index
 
     while (k <= end && tree[k] < root)
     {
