@@ -1,9 +1,8 @@
 # 19641번: 중첩 집합 모델 - <img src="https://static.solved.ac/tier_small/11.svg" style="height:20px" /> Gold V
 
 <!-- performance -->
-
-<!-- 문제 제출 후 깃허브에 푸시를 했을 때 제출한 코드의 성능이 입력될 공간입니다.-->
-
+### 성능 요약
+메모리: 15240 KB, 시간: 84 ms
 <!-- end -->
 
 ## 문제
